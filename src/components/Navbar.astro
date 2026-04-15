@@ -1,0 +1,240 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../i18n/utils';
+import { getHomePath } from '../i18n/utils';
+import { t } from '../i18n/ui';
+import LangSwitcher from './LangSwitcher.astro';
+
+interface Props {
+  lang: Lang;
+  isServicePage?: boolean;
+}
+
+const { lang, isServicePage = false } = Astro.props;
+const homePath = getHomePath(lang);
+---
+
+<nav id="main-navbar" class="navbar" data-service-page={isServicePage.toString()}>
+  <div class="container navbar-inner">
+    <!-- Logo -->
+    <a href={homePath} class="navbar-logo" aria-label="AYCCONEX - Inicio">
+      <img src="/aycconex-color.png" alt="AYCCONEX" class="navbar-logo-img" />
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div class="navbar-links hide-mobile">
+      <a href={homePath} class="nav-link">{t(lang, 'nav.home')}</a>
+      {!isServicePage && (
+        <a href="#quienes-somos" class="nav-link">{t(lang, 'nav.about')}</a>
+      )}
+      {!isServicePage && (
+        <a href="#servicios-grid" class="nav-link">{t(lang, 'nav.services')}</a>
+      )}
+      <LangSwitcher lang={lang} />
+      <a href="#contacto" class="nav-cta">
+        {t(lang, 'nav.contact')}
+        <Icon name="lucide:arrow-right" size={16} />
+      </a>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button
+      id="mobile-menu-btn"
+      class="hamburger-btn hide-desktop"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+    >
+      <Icon name="lucide:menu" size={28} class="icon-menu" />
+      <Icon name="lucide:x" size={28} class="icon-close" style="display:none" />
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <a href={homePath} class="mobile-link">{t(lang, 'nav.home')}</a>
+    {!isServicePage && (
+      <a href="#servicios-grid" class="mobile-link">{t(lang, 'nav.services')}</a>
+    )}
+    <a href="#contacto" class="mobile-link">{t(lang, 'nav.contact')}</a>
+    <LangSwitcher lang={lang} mobile />
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    padding: 1.25rem 0;
+  }
+
+  .navbar.scrolled {
+    background: var(--color-white);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 0;
+  }
+
+  .navbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-logo-img {
+    height: 50px;
+    width: auto;
+    transition: height 0.3s ease;
+  }
+
+  .navbar.scrolled .navbar-logo-img {
+    height: 40px;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary);
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-accent);
+    color: var(--color-white);
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.25rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(239, 73, 76, 0.3);
+  }
+
+  .nav-cta:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+  }
+
+  .hamburger-btn {
+    color: var(--color-primary);
+    padding: 0.25rem;
+  }
+
+  /* Mobile Menu */
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--color-white);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 1px solid var(--color-gray-200);
+    animation: fadeInUp 0.3s ease-out;
+  }
+
+  .mobile-menu.open {
+    display: flex;
+  }
+
+  .mobile-link {
+    display: block;
+    padding: 0.5rem 0;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+
+  .mobile-link:hover {
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  let navbarController: AbortController | null = null;
+
+  function initNavbar() {
+    // Abort previous listeners to prevent stacking
+    if (navbarController) {
+      navbarController.abort();
+    }
+    navbarController = new AbortController();
+    const { signal } = navbarController;
+
+    const navbar = document.getElementById('main-navbar');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconMenu = menuBtn?.querySelector('.icon-menu') as HTMLElement;
+    const iconClose = menuBtn?.querySelector('.icon-close') as HTMLElement;
+
+    if (!navbar || !menuBtn || !mobileMenu) return;
+
+    // Scroll effect
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    };
+
+    // Force scrolled state on service pages
+    if (navbar.dataset.servicePage === 'true') {
+      navbar.classList.add('scrolled');
+    }
+
+    window.addEventListener('scroll', handleScroll, { signal });
+    handleScroll();
+
+    // Mobile menu toggle
+    menuBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      if (iconMenu && iconClose) {
+        iconMenu.style.display = isOpen ? 'none' : 'block';
+        iconClose.style.display = isOpen ? 'block' : 'none';
+      }
+    }, { signal });
+
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        if (iconMenu && iconClose) {
+          iconMenu.style.display = 'block';
+          iconClose.style.display = 'none';
+        }
+      }, { signal });
+    });
+  }
+
+  initNavbar();
+  document.addEventListener('astro:page-load', initNavbar);
+</script>

@@ -1,0 +1,212 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../i18n/utils';
+import { languages } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  mobile?: boolean;
+}
+
+const { lang, mobile = false } = Astro.props;
+
+// Get current URL path to build equivalent paths in other langs
+const currentPath = Astro.url.pathname;
+
+function getEquivalentPath(targetLang: Lang): string {
+  // Home pages
+  if (currentPath === '/' || currentPath === '/en/' || currentPath === '/zh/') {
+    if (targetLang === 'es') return '/';
+    return `/${targetLang}/`;
+  }
+
+  // Service pages: /servicios/xxx -> /en/services/xxx -> /zh/services/xxx
+  const esMatch = currentPath.match(/^\/servicios\/(.+?)(?:\/)?$/);
+  const enMatch = currentPath.match(/^\/en\/services\/(.+?)(?:\/)?$/);
+  const zhMatch = currentPath.match(/^\/zh\/services\/(.+?)(?:\/)?$/);
+  const serviceId = esMatch?.[1] || enMatch?.[1] || zhMatch?.[1];
+
+  if (serviceId) {
+    if (targetLang === 'es') return `/servicios/${serviceId}`;
+    if (targetLang === 'en') return `/en/services/${serviceId}`;
+    if (targetLang === 'zh') return `/zh/services/${serviceId}`;
+  }
+
+  // Fallback
+  if (targetLang === 'es') return '/';
+  return `/${targetLang}/`;
+}
+
+const langFlags: Record<Lang, string> = {
+  es: '🇪🇸',
+  en: '🇬🇧',
+  zh: '🇨🇳',
+};
+---
+
+{mobile ? (
+  <div class="lang-switcher-mobile">
+    {(Object.keys(languages) as Lang[]).map((l) => (
+      <a
+        href={getEquivalentPath(l)}
+        class:list={['lang-btn-mobile', { active: l === lang }]}
+        aria-label={`Cambiar idioma a ${languages[l]}`}
+      >
+        <span class="lang-flag">{langFlags[l]}</span>
+        {languages[l]}
+      </a>
+    ))}
+  </div>
+) : (
+  <div class="lang-switcher" id="lang-switcher">
+    <button class="lang-current" id="lang-toggle" aria-label="Cambiar idioma" aria-expanded="false">
+      <Icon name="lucide:globe" size={16} />
+      <span>{langFlags[lang]} {lang.toUpperCase()}</span>
+    </button>
+    <div class="lang-dropdown" id="lang-dropdown" aria-hidden="true">
+      {(Object.keys(languages) as Lang[]).map((l) => (
+        <a
+          href={getEquivalentPath(l)}
+          class:list={['lang-option', { active: l === lang }]}
+          aria-label={`Cambiar idioma a ${languages[l]}`}
+        >
+          <span class="lang-flag">{langFlags[l]}</span>
+          {languages[l]}
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .lang-switcher {
+    position: relative;
+  }
+
+  .lang-current {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .lang-current:hover {
+    border-color: var(--color-primary);
+  }
+
+  .lang-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    min-width: 140px;
+    z-index: 100;
+  }
+
+  .lang-dropdown.open {
+    display: block;
+  }
+
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    transition: all 0.15s ease;
+  }
+
+  .lang-option:hover {
+    background: var(--color-gray-50);
+    color: var(--color-primary);
+  }
+
+  .lang-option.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 700;
+  }
+
+  .lang-flag {
+    font-size: 1.1rem;
+  }
+
+  /* Mobile Version */
+  .lang-switcher-mobile {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .lang-btn-mobile {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    transition: all 0.2s ease;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .lang-btn-mobile.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+  }
+</style>
+
+<script>
+  let langSwitcherController: AbortController | null = null;
+
+  function initLangSwitcher() {
+    // Abort previous listeners to prevent stacking
+    if (langSwitcherController) {
+      langSwitcherController.abort();
+    }
+    langSwitcherController = new AbortController();
+    const { signal } = langSwitcherController;
+
+    const toggle = document.getElementById('lang-toggle');
+    const dropdown = document.getElementById('lang-dropdown');
+    if (!toggle || !dropdown) return;
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      dropdown.setAttribute('aria-hidden', String(!isOpen));
+    }, { signal });
+
+    document.addEventListener('click', () => {
+      dropdown.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      dropdown.setAttribute('aria-hidden', 'true');
+    }, { signal });
+  }
+
+  initLangSwitcher();
+  document.addEventListener('astro:page-load', initLangSwitcher);
+</script>

@@ -1,0 +1,75 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ServiceHero from '../../../components/ServiceHero.astro';
+import ServiceSidebar from '../../../components/ServiceSidebar.astro';
+import ServiceDetail from '../../../components/ServiceDetail.astro';
+import ContactSection from '../../../components/ContactSection.astro';
+import { getServices, getServiceById } from '../../../i18n/services';
+import type { GetStaticPaths } from 'astro';
+
+const lang = 'zh' as const;
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const services = getServices('zh');
+  return services.map((service) => ({
+    params: { id: service.id },
+  }));
+};
+
+const { id } = Astro.params;
+const service = getServiceById(lang, id as string);
+
+if (!service) {
+  return Astro.redirect('/zh/');
+}
+---
+
+<Layout lang={lang} title={`${service.fullTitle} — AYCCONEX`} description={service.desc} isServicePage>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      { '@type': 'ListItem', 'position': 1, 'name': '首页', 'item': 'https://www.aycconex.com/zh/' },
+      { '@type': 'ListItem', 'position': 2, 'name': '服务', 'item': 'https://www.aycconex.com/zh/#servicios-grid' },
+      { '@type': 'ListItem', 'position': 3, 'name': service.fullTitle, 'item': `https://www.aycconex.com/zh/services/${service.id}` },
+    ],
+  })} />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    'name': service.fullTitle,
+    'description': service.desc,
+    'provider': { '@type': 'Organization', 'name': 'AYCCONEX Sin Fronteras', 'url': 'https://www.aycconex.com' },
+    'areaServed': [{ '@type': 'Country', 'name': 'Uruguay' }, { '@type': 'Country', 'name': 'China' }],
+    'availableChannel': { '@type': 'ServiceChannel', 'serviceUrl': `https://www.aycconex.com/zh/services/${service.id}` },
+  })} />
+  <main>
+    <ServiceHero lang={lang} service={service} />
+    <div class="service-layout">
+      <div class="container service-layout-inner">
+        <ServiceSidebar lang={lang} activeServiceId={service.id} />
+        <ServiceDetail lang={lang} service={service} />
+      </div>
+    </div>
+    <ContactSection lang={lang} />
+  </main>
+</Layout>
+
+<style>
+  .service-layout {
+    background: var(--color-gray-50);
+    padding: 4rem 0;
+  }
+
+  .service-layout-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .service-layout-inner {
+      flex-direction: row;
+    }
+  }
+</style>

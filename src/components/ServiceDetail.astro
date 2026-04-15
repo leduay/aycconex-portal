@@ -1,0 +1,196 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t } from '../i18n/ui';
+import type { ServiceData } from '../i18n/services';
+
+interface Props {
+  lang: Lang;
+  service: ServiceData;
+}
+
+const { lang, service } = Astro.props;
+---
+
+<div class="detail-panel">
+  <div class="detail-inner">
+    <h3 class="detail-heading">{t(lang, 'service.detail')}</h3>
+
+    <div class="detail-timeline">
+      {service.details.map((detail, idx) => (
+        <div class="detail-item">
+          <div class="timeline-dot hide-mobile"></div>
+          {idx < service.details.length - 1 && <div class="timeline-line hide-mobile"></div>}
+          <div class="detail-content">
+            <h4 class="detail-title">{detail.title}</h4>
+            {detail.catchphrase && (
+              <p class="detail-catchphrase">{detail.catchphrase}</p>
+            )}
+            <p class="detail-text">{detail.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- CTA Box -->
+    <div class="detail-cta-box">
+      <div class="cta-box-text">
+        <h5 class="cta-box-title">{service.ctaDesc}</h5>
+        <p class="cta-box-desc">{t(lang, 'service.ctaGeneric')}</p>
+      </div>
+      <a href="#contacto" class="cta-box-btn">{service.ctaText}</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .detail-panel {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .detail-panel {
+      width: 75%;
+    }
+  }
+
+  .detail-inner {
+    background: var(--color-white);
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-gray-100);
+    padding: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .detail-inner {
+      padding: 3rem;
+    }
+  }
+
+  .detail-heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .detail-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .detail-item {
+    position: relative;
+    padding-left: 0;
+  }
+
+  @media (min-width: 768px) {
+    .detail-item {
+      padding-left: 2.5rem;
+    }
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -0.5rem;
+    top: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: 4px solid var(--color-accent);
+    z-index: 1;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: -0.0625rem;
+    top: 1.25rem;
+    bottom: -2.5rem;
+    width: 2px;
+    background: var(--color-gray-200);
+  }
+
+  .detail-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .detail-catchphrase {
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
+  }
+
+  .detail-text {
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    font-size: 1.0625rem;
+  }
+
+  /* CTA Box */
+  .detail-cta-box {
+    margin-top: 4rem;
+    background: var(--color-gray-50);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid var(--color-cta);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 768px) {
+    .detail-cta-box {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .cta-box-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--color-gray-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-box-desc {
+    color: var(--color-gray-600);
+  }
+
+  .cta-box-btn {
+    display: inline-block;
+    background: var(--color-cta);
+    color: var(--color-white);
+    font-weight: 700;
+    padding: 1rem 2rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .cta-box-btn {
+      width: auto;
+    }
+  }
+
+  .cta-box-btn:hover {
+    background: var(--color-cta-hover);
+    transform: scale(1.05);
+  }
+</style>

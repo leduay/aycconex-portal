@@ -1,0 +1,184 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../i18n/utils';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const pillars = [
+  {
+    icon: 'lucide:zap',
+    title: t(lang, 'why.pillar1.title'),
+    text: t(lang, 'why.pillar1.text'),
+    color: '#005579',
+  },
+  {
+    icon: 'lucide:languages',
+    title: t(lang, 'why.pillar2.title'),
+    text: t(lang, 'why.pillar2.text'),
+    color: '#EF494C',
+  },
+  {
+    icon: 'lucide:eye',
+    title: t(lang, 'why.pillar3.title'),
+    text: t(lang, 'why.pillar3.text'),
+    color: '#10B981',
+  },
+  {
+    icon: 'lucide:graduation-cap',
+    title: t(lang, 'why.pillar4.title'),
+    text: t(lang, 'why.pillar4.text'),
+    color: '#005579',
+  },
+];
+---
+
+<section id="por-que-nosotros" class="why-section">
+  <div class="container">
+    <div class="why-header reveal-on-scroll">
+      <div class="section-label-center">
+        <h2 class="label-text-center">{t(lang, 'why.label')}</h2>
+      </div>
+      <h3 class="why-title">
+        {t(lang, 'why.title')} <br />
+        <span class="accent-text">{t(lang, 'why.title2')}</span>
+      </h3>
+      <p class="why-subtitle">{t(lang, 'why.subtitle')}</p>
+    </div>
+
+    <div class="pillars-grid">
+      {pillars.map((pillar, idx) => (
+        <div class="pillar-card reveal-on-scroll" style={`--delay: ${idx * 100}ms`}>
+          <div class="pillar-icon-wrapper" style={`background-color: ${pillar.color}`}>
+            <Icon name={pillar.icon} size={28} class="pillar-icon" />
+          </div>
+          <h4 class="pillar-title">{pillar.title}</h4>
+          <p class="pillar-text">{pillar.text}</p>
+          <div class="pillar-accent" style={`background-color: ${pillar.color}`}></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-section {
+    padding: 6rem 0;
+    background: var(--color-gray-50);
+    border-top: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .why-header {
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto 4rem;
+  }
+
+  .label-text-center {
+    color: var(--color-accent);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .why-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--color-gray-900);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .accent-text {
+    color: var(--color-accent);
+  }
+
+  .why-subtitle {
+    color: var(--color-gray-600);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .pillars-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .pillar-card {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--color-gray-100);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    transition-delay: var(--delay);
+  }
+
+  .pillar-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    border-color: transparent;
+  }
+
+  .pillar-icon-wrapper {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+
+  .pillar-card:hover .pillar-icon-wrapper {
+    transform: rotate(6deg) scale(1.05);
+  }
+
+  .pillar-icon {
+    color: var(--color-white);
+  }
+
+  .pillar-title {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--color-gray-900);
+    margin-bottom: 0.75rem;
+  }
+
+  .pillar-text {
+    color: var(--color-gray-600);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .pillar-accent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .pillar-card:hover .pillar-accent {
+    opacity: 1;
+  }
+</style>

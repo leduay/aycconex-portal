@@ -1,0 +1,27 @@
+# build output
+dist/
+
+# source files (not for repo)
+*.docx
+AYCCONEX_Mesa*
+public/favicon.ico
+public/favicon.svg
+public/images/logo.png
+public/images/logo-white.png
+
+# dependencies
+node_modules/
+
+# environment variables
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# editor
+.vscode/
+.idea/
+
+# astro
+.astro/

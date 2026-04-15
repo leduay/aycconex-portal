@@ -1,0 +1,213 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../i18n/utils';
+import { getHomePath } from '../i18n/utils';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const homePath = getHomePath(lang);
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <!-- Brand Column -->
+    <div class="footer-brand">
+      <a href={homePath} class="footer-logo-link">
+        <img src="/aycconex-blanco.png" alt="AYCCONEX" class="footer-logo-img" />
+      </a>
+      <p class="footer-desc">{t(lang, 'footer.desc')}</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" aria-label="Web">
+          <Icon name="lucide:globe" size={18} />
+        </a>
+        <a href="#" class="social-btn" aria-label="WhatsApp">
+          <Icon name="lucide:message-square" size={18} />
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4 class="footer-col-title">{t(lang, 'footer.links')}</h4>
+      <ul class="footer-links">
+        <li><a href={homePath} class="footer-link">{t(lang, 'nav.home')}</a></li>
+        <li><a href="#servicios-grid" class="footer-link">{t(lang, 'nav.services')}</a></li>
+        <li><a href="#contacto" class="footer-link">{t(lang, 'nav.contact')}</a></li>
+      </ul>
+    </div>
+
+    <!-- Offices -->
+    <div class="footer-col">
+      <h4 class="footer-col-title">{t(lang, 'footer.offices')}</h4>
+      <ul class="footer-links">
+        <li class="footer-office">
+          <Icon name="lucide:map-pin" size={16} class="office-icon office-icon-accent" />
+          Montevideo, Uruguay
+        </li>
+        <li class="footer-office">
+          <Icon name="lucide:map-pin" size={16} class="office-icon office-icon-primary" />
+          Beijing / Guangzhou, China
+        </li>
+        <li class="footer-email">
+          contacto@aycconex.com
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="container footer-bottom">
+    <p>&copy; {currentYear} AYCCONEX. {t(lang, 'footer.rights')}</p>
+    <p class="footer-powered">
+      {t(lang, 'footer.poweredBy')}
+      <a href="https://www.nodosync.com/" target="_blank" rel="noopener noreferrer" class="powered-link">NodoSync</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-gray-900);
+    color: var(--color-gray-400);
+    padding: 4rem 0 0;
+    border-top: 1px solid var(--color-gray-800);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .footer-brand {
+    max-width: 24rem;
+  }
+
+  .footer-logo-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-logo-img {
+    height: 60px;
+    width: auto;
+  }
+
+  .footer-desc {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-gray-800);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
+
+  .social-btn:hover {
+    background: var(--color-accent);
+  }
+
+  .footer-col-title {
+    color: var(--color-white);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-accent);
+  }
+
+  .footer-office {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .office-icon-accent {
+    color: var(--color-accent);
+  }
+
+  .office-icon-primary {
+    color: var(--color-primary);
+  }
+
+  .footer-email {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-gray-800);
+    font-size: 0.875rem;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-gray-800);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-bottom {
+      flex-direction: row;
+    }
+  }
+
+  .footer-powered {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+  }
+
+  .powered-link {
+    color: var(--color-accent);
+    font-weight: 700;
+    transition: color 0.2s ease;
+  }
+
+  .powered-link:hover {
+    color: var(--color-white);
+  }
+</style>

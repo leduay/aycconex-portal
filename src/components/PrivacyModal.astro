@@ -1,0 +1,407 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const privacyContent: Record<Lang, string> = {
+  es: `
+<h3>1. Información que recopilamos</h3>
+<p>Recopilamos la información personal que usted nos proporciona directamente a través de nuestro formulario de contacto, incluyendo:</p>
+<ul>
+<li>Nombre completo</li>
+<li>Dirección de correo electrónico</li>
+<li>Nombre de la empresa (opcional)</li>
+<li>Servicio de interés</li>
+<li>Contenido de su mensaje</li>
+</ul>
+<p>También recopilamos automáticamente cierta información cuando visita nuestro sitio web, como su dirección IP, tipo de navegador, páginas visitadas y la fecha y hora de su visita.</p>
+
+<h3>2. Uso de la información</h3>
+<p>Utilizamos la información recopilada para los siguientes fines:</p>
+<ul>
+<li>Responder a sus consultas y solicitudes de cotización</li>
+<li>Proporcionar información sobre nuestros servicios de comercio internacional</li>
+<li>Mejorar nuestro sitio web y la experiencia del usuario</li>
+<li>Cumplir con obligaciones legales aplicables</li>
+<li>Enviar comunicaciones comerciales relevantes, siempre con su consentimiento previo</li>
+</ul>
+
+<h3>3. Cookies</h3>
+<p>Nuestro sitio web utiliza cookies para mejorar su experiencia de navegación. Las cookies son pequeños archivos de texto que se almacenan en su dispositivo. Utilizamos:</p>
+<ul>
+<li><strong>Cookies esenciales:</strong> necesarias para el funcionamiento básico del sitio</li>
+<li><strong>Cookies de preferencias:</strong> para recordar sus ajustes (como el idioma seleccionado)</li>
+<li><strong>Cookies analíticas:</strong> para comprender cómo interactúan los visitantes con nuestro sitio</li>
+</ul>
+<p>Puede configurar su navegador para rechazar cookies, aunque esto podría afectar la funcionalidad del sitio.</p>
+
+<h3>4. Compartir información con terceros</h3>
+<p>No vendemos, comercializamos ni transferimos su información personal a terceros, excepto en los siguientes casos:</p>
+<ul>
+<li>Proveedores de servicios que nos asisten en la operación del sitio web (como el servicio de formularios Web3Forms)</li>
+<li>Cuando sea requerido por ley o por una orden judicial</li>
+<li>Para proteger nuestros derechos legales</li>
+</ul>
+
+<h3>5. Seguridad de los datos</h3>
+<p>Implementamos medidas de seguridad técnicas y organizativas razonables para proteger su información personal contra el acceso no autorizado, la alteración, la divulgación o la destrucción. Sin embargo, ningún método de transmisión por Internet es 100% seguro.</p>
+
+<h3>6. Retención de datos</h3>
+<p>Conservamos su información personal durante el tiempo necesario para cumplir con los fines descritos en esta política, a menos que la ley exija o permita un período de retención más prolongado.</p>
+
+<h3>7. Sus derechos</h3>
+<p>Usted tiene derecho a:</p>
+<ul>
+<li>Acceder a sus datos personales que tenemos almacenados</li>
+<li>Solicitar la corrección de datos inexactos</li>
+<li>Solicitar la eliminación de sus datos personales</li>
+<li>Oponerse al procesamiento de sus datos</li>
+<li>Solicitar la portabilidad de sus datos</li>
+</ul>
+<p>Para ejercer cualquiera de estos derechos, contáctenos a <strong>contacto@aycconex.com</strong>.</p>
+
+<h3>8. Cambios en esta política</h3>
+<p>Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Los cambios serán publicados en esta página con la fecha de la última actualización. Le recomendamos revisar esta política periódicamente.</p>
+
+<h3>9. Contacto</h3>
+<p>Si tiene preguntas sobre esta Política de Privacidad, puede contactarnos en:</p>
+<ul>
+<li><strong>Email:</strong> contacto@aycconex.com</li>
+<li><strong>Empresa:</strong> AYCCONEX Sin Fronteras</li>
+<li><strong>Sedes:</strong> Montevideo, Uruguay / Beijing, China</li>
+</ul>
+<p><em>Última actualización: abril 2026</em></p>
+`,
+  en: `
+<h3>1. Information We Collect</h3>
+<p>We collect personal information that you provide directly through our contact form, including:</p>
+<ul>
+<li>Full name</li>
+<li>Email address</li>
+<li>Company name (optional)</li>
+<li>Service of interest</li>
+<li>Message content</li>
+</ul>
+<p>We also automatically collect certain information when you visit our website, such as your IP address, browser type, pages visited, and the date and time of your visit.</p>
+
+<h3>2. Use of Information</h3>
+<p>We use the collected information for the following purposes:</p>
+<ul>
+<li>Responding to your inquiries and quotation requests</li>
+<li>Providing information about our international trade services</li>
+<li>Improving our website and user experience</li>
+<li>Complying with applicable legal obligations</li>
+<li>Sending relevant commercial communications, always with your prior consent</li>
+</ul>
+
+<h3>3. Cookies</h3>
+<p>Our website uses cookies to enhance your browsing experience. Cookies are small text files stored on your device. We use:</p>
+<ul>
+<li><strong>Essential cookies:</strong> necessary for basic site functionality</li>
+<li><strong>Preference cookies:</strong> to remember your settings (such as selected language)</li>
+<li><strong>Analytics cookies:</strong> to understand how visitors interact with our site</li>
+</ul>
+<p>You can configure your browser to reject cookies, although this may affect site functionality.</p>
+
+<h3>4. Sharing Information with Third Parties</h3>
+<p>We do not sell, trade, or transfer your personal information to third parties, except in the following cases:</p>
+<ul>
+<li>Service providers who assist us in operating the website (such as the Web3Forms form service)</li>
+<li>When required by law or court order</li>
+<li>To protect our legal rights</li>
+</ul>
+
+<h3>5. Data Security</h3>
+<p>We implement reasonable technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of internet transmission is 100% secure.</p>
+
+<h3>6. Data Retention</h3>
+<p>We retain your personal information for as long as necessary to fulfill the purposes described in this policy, unless the law requires or permits a longer retention period.</p>
+
+<h3>7. Your Rights</h3>
+<p>You have the right to:</p>
+<ul>
+<li>Access your personal data stored by us</li>
+<li>Request correction of inaccurate data</li>
+<li>Request deletion of your personal data</li>
+<li>Object to the processing of your data</li>
+<li>Request data portability</li>
+</ul>
+<p>To exercise any of these rights, contact us at <strong>contacto@aycconex.com</strong>.</p>
+
+<h3>8. Changes to This Policy</h3>
+<p>We reserve the right to update this Privacy Policy at any time. Changes will be posted on this page with the date of the last update. We recommend reviewing this policy periodically.</p>
+
+<h3>9. Contact</h3>
+<p>If you have questions about this Privacy Policy, you can contact us at:</p>
+<ul>
+<li><strong>Email:</strong> contacto@aycconex.com</li>
+<li><strong>Company:</strong> AYCCONEX Sin Fronteras</li>
+<li><strong>Offices:</strong> Montevideo, Uruguay / Beijing, China</li>
+</ul>
+<p><em>Last updated: April 2026</em></p>
+`,
+  zh: `
+<h3>1. 我们收集的信息</h3>
+<p>我们通过联系表格收集您直接提供的个人信息，包括：</p>
+<ul>
+<li>全名</li>
+<li>电子邮件地址</li>
+<li>公司名称（可选）</li>
+<li>感兴趣的服务</li>
+<li>消息内容</li>
+</ul>
+<p>当您访问我们的网站时，我们还会自动收集某些信息，例如您的IP地址、浏览器类型、访问的页面以及访问日期和时间。</p>
+
+<h3>2. 信息的使用</h3>
+<p>我们将收集的信息用于以下目的：</p>
+<ul>
+<li>回复您的咨询和报价请求</li>
+<li>提供有关我们国际贸易服务的信息</li>
+<li>改善我们的网站和用户体验</li>
+<li>遵守适用的法律义务</li>
+<li>在您事先同意的情况下发送相关商业通讯</li>
+</ul>
+
+<h3>3. Cookies</h3>
+<p>我们的网站使用cookies来增强您的浏览体验。Cookies是存储在您设备上的小型文本文件。我们使用：</p>
+<ul>
+<li><strong>必要cookies：</strong>网站基本功能所需</li>
+<li><strong>偏好cookies：</strong>记住您的设置（如所选语言）</li>
+<li><strong>分析cookies：</strong>了解访问者如何与我们的网站互动</li>
+</ul>
+<p>您可以将浏览器设置为拒绝cookies，但这可能会影响网站功能。</p>
+
+<h3>4. 与第三方共享信息</h3>
+<p>我们不会向第三方出售、交易或转让您的个人信息，以下情况除外：</p>
+<ul>
+<li>协助我们运营网站的服务提供商（如Web3Forms表单服务）</li>
+<li>法律或法院命令要求时</li>
+<li>保护我们的合法权益</li>
+</ul>
+
+<h3>5. 数据安全</h3>
+<p>我们实施合理的技术和组织安全措施，以保护您的个人信息免受未经授权的访问、更改、披露或销毁。但是，没有任何互联网传输方法是100%安全的。</p>
+
+<h3>6. 数据保留</h3>
+<p>我们在本政策所述目的所需的时间内保留您的个人信息，除非法律要求或允许更长的保留期限。</p>
+
+<h3>7. 您的权利</h3>
+<p>您有权：</p>
+<ul>
+<li>访问我们存储的您的个人数据</li>
+<li>请求更正不准确的数据</li>
+<li>请求删除您的个人数据</li>
+<li>反对处理您的数据</li>
+<li>请求数据可携性</li>
+</ul>
+<p>要行使这些权利，请联系我们：<strong>contacto@aycconex.com</strong>。</p>
+
+<h3>8. 本政策的变更</h3>
+<p>我们保留随时更新本隐私政策的权利。变更将发布在此页面上，并附有最后更新日期。我们建议您定期查看本政策。</p>
+
+<h3>9. 联系方式</h3>
+<p>如果您对本隐私政策有疑问，可以通过以下方式联系我们：</p>
+<ul>
+<li><strong>邮箱：</strong>contacto@aycconex.com</li>
+<li><strong>公司：</strong>AYCCONEX Sin Fronteras</li>
+<li><strong>办事处：</strong>蒙得维的亚，乌拉圭 / 北京，中国</li>
+</ul>
+<p><em>最后更新：2026年4月</em></p>
+`,
+};
+---
+
+<!-- Privacy Policy Modal -->
+<div id="privacy-modal" class="privacy-overlay" aria-hidden="true" role="dialog" aria-labelledby="privacy-modal-title">
+  <div class="privacy-modal">
+    <div class="privacy-header">
+      <h2 id="privacy-modal-title" class="privacy-title">{t(lang, 'privacy.title')}</h2>
+      <button id="privacy-close" class="privacy-close-btn" aria-label={t(lang, 'privacy.close')}>
+        &times;
+      </button>
+    </div>
+    <div class="privacy-body" set:html={privacyContent[lang]} />
+  </div>
+</div>
+
+<style>
+  .privacy-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .privacy-overlay.open {
+    display: flex;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .privacy-modal {
+    background: var(--color-white);
+    border-radius: 1rem;
+    max-width: 720px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .privacy-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--color-gray-200);
+    flex-shrink: 0;
+  }
+
+  .privacy-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+  }
+
+  .privacy-close-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: var(--color-gray-500);
+    background: var(--color-gray-100);
+    transition: all 0.2s ease;
+    line-height: 1;
+  }
+
+  .privacy-close-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+  }
+
+  .privacy-body {
+    padding: 2rem;
+    overflow-y: auto;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-gray-600);
+  }
+
+  .privacy-body :global(h3) {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .privacy-body :global(h3:first-child) {
+    margin-top: 0;
+  }
+
+  .privacy-body :global(p) {
+    margin-bottom: 0.75rem;
+  }
+
+  .privacy-body :global(ul) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    list-style: disc;
+  }
+
+  .privacy-body :global(li) {
+    margin-bottom: 0.375rem;
+  }
+
+  .privacy-body :global(strong) {
+    color: var(--color-gray-900);
+  }
+
+  .privacy-body :global(em) {
+    color: var(--color-gray-400);
+    font-size: 0.8125rem;
+  }
+</style>
+
+<script>
+  let privacyController: AbortController | null = null;
+
+  function initPrivacyModal() {
+    if (privacyController) privacyController.abort();
+    privacyController = new AbortController();
+    const { signal } = privacyController;
+
+    const modal = document.getElementById('privacy-modal');
+    const closeBtn = document.getElementById('privacy-close');
+    if (!modal || !closeBtn) return;
+
+    // Close button
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }, { signal });
+
+    // Click outside to close
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    }, { signal });
+
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    }, { signal });
+
+    // Open triggers (any element with data-privacy-trigger)
+    document.querySelectorAll('[data-privacy-trigger]').forEach((trigger) => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }, { signal });
+    });
+  }
+
+  initPrivacyModal();
+  document.addEventListener('astro:page-load', initPrivacyModal);
+</script>

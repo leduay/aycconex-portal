@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import AboutSection from '../../components/AboutSection.astro';
+import WhyUsSection from '../../components/WhyUsSection.astro';
+import ServicesGrid from '../../components/ServicesGrid.astro';
+import ClientsMarquee from '../../components/ClientsMarquee.astro';
+import ContactSection from '../../components/ContactSection.astro';
+
+const lang = 'en' as const;
+---
+
+<Layout lang={lang}>
+  <main>
+    <Hero lang={lang} />
+    <AboutSection lang={lang} />
+    <WhyUsSection lang={lang} />
+    <ServicesGrid lang={lang} />
+    <ClientsMarquee lang={lang} />
+    <ContactSection lang={lang} />
+  </main>
+</Layout>

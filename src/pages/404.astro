@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lang = 'es' as const;
+---
+
+<Layout lang={lang} title="Página no encontrada — AYCCONEX" description="La página que buscas no existe.">
+  <main class="error-page">
+    <div class="container error-content">
+      <h1 class="error-code">404</h1>
+      <h2 class="error-title">Página no encontrada</h2>
+      <p class="error-desc">Lo sentimos, la página que buscas no existe o ha sido movida.</p>
+      <a href="/" class="error-cta">Volver al inicio</a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .error-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-gray-50);
+    padding-top: 5rem;
+  }
+
+  .error-content {
+    text-align: center;
+    max-width: 32rem;
+  }
+
+  .error-code {
+    font-size: 8rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    line-height: 1;
+    opacity: 0.15;
+    margin-bottom: -1rem;
+  }
+
+  .error-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-gray-900);
+    margin-bottom: 1rem;
+  }
+
+  .error-desc {
+    color: var(--color-gray-500);
+    margin-bottom: 2rem;
+    font-size: 1.0625rem;
+  }
+
+  .error-cta {
+    display: inline-block;
+    background: var(--color-accent);
+    color: var(--color-white);
+    font-weight: 700;
+    padding: 0.875rem 2rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(239, 73, 76, 0.3);
+  }
+
+  .error-cta:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+  }
+</style>

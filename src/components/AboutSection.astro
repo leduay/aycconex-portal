@@ -1,0 +1,265 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../i18n/utils';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section id="quienes-somos" class="about-section">
+  <div class="container">
+    <div class="about-grid reveal-on-scroll">
+      <!-- Text Column -->
+      <div class="about-text">
+        <div class="section-label">
+          <div class="label-line"></div>
+          <h2 class="label-text">{t(lang, 'about.label')}</h2>
+        </div>
+
+        <h3 class="about-title">
+          {t(lang, 'about.title1')} <br />
+          <span class="accent-text">{t(lang, 'about.title2')}</span>
+        </h3>
+
+        <p class="about-desc">{t(lang, 'about.text')}</p>
+
+        <div class="about-cards">
+          <div class="about-card">
+            <Icon name="lucide:map-pin" size={32} class="card-icon card-icon-primary" />
+            <h4 class="card-title">{t(lang, 'about.card1.title')}</h4>
+            <p class="card-text">{t(lang, 'about.card1.text')}</p>
+          </div>
+          <div class="about-card">
+            <Icon name="lucide:globe" size={32} class="card-icon card-icon-accent" />
+            <h4 class="card-title">{t(lang, 'about.card2.title')}</h4>
+            <p class="card-text">{t(lang, 'about.card2.text')}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Column -->
+      <div class="about-image-wrapper">
+        <div class="image-shadow"></div>
+        <img
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+          alt="Equipo de negocios"
+          class="about-image"
+          loading="lazy"
+        />
+
+        <!-- Floating Card -->
+        <div class="floating-card glass-card hide-mobile">
+          <div class="floating-card-inner">
+            <div class="floating-icon">
+              <Icon name="lucide:shield-check" size={24} />
+            </div>
+            <div>
+              <p class="floating-number">{t(lang, 'about.experience')}</p>
+              <p class="floating-label">{t(lang, 'about.experienceLabel')}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    padding: 6rem 0;
+    background: var(--color-white);
+  }
+
+  .about-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .about-grid {
+      flex-direction: row;
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-image-wrapper {
+      flex: 1;
+    }
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .label-line {
+    height: 4px;
+    width: 3rem;
+    background: var(--color-accent);
+    border-radius: 2px;
+  }
+
+  .label-text {
+    color: var(--color-primary);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+
+  .about-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--color-gray-900);
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+
+  .accent-text {
+    color: var(--color-accent);
+  }
+
+  .about-desc {
+    color: var(--color-gray-600);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .about-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .about-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .about-card {
+    background: var(--color-gray-50);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-gray-100);
+    transition: border-color 0.3s ease;
+  }
+
+  .about-card:first-child:hover {
+    border-color: rgba(0, 85, 121, 0.3);
+  }
+
+  .about-card:last-child:hover {
+    border-color: rgba(239, 73, 76, 0.3);
+  }
+
+  .card-icon {
+    margin-bottom: 1rem;
+  }
+
+  .card-icon-primary {
+    color: var(--color-primary);
+  }
+
+  .card-icon-accent {
+    color: var(--color-accent);
+  }
+
+  .card-title {
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-text {
+    color: var(--color-gray-600);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Image */
+  .about-image-wrapper {
+    position: relative;
+  }
+
+  .about-image-wrapper:hover .image-shadow {
+    transform: translate(2rem, 2rem);
+  }
+
+  .about-image-wrapper:hover .about-image {
+    transform: translateY(-0.5rem);
+  }
+
+  .image-shadow {
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary);
+    border-radius: 1rem;
+    transform: translate(1.5rem, 1.5rem);
+    opacity: 0.1;
+    transition: transform 0.5s ease;
+  }
+
+  .about-image {
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  /* Floating Card */
+  .floating-card {
+    position: absolute;
+    bottom: -2.5rem;
+    left: -2.5rem;
+    z-index: 2;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    max-width: 16rem;
+  }
+
+  .floating-card-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .floating-icon {
+    background: var(--color-cta);
+    color: var(--color-white);
+    padding: 0.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .floating-number {
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--color-gray-900);
+  }
+
+  .floating-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-gray-500);
+  }
+</style>

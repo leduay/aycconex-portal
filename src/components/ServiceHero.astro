@@ -1,0 +1,120 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../i18n/utils';
+import { getHomePath } from '../i18n/utils';
+import { t } from '../i18n/ui';
+import type { ServiceData } from '../i18n/services';
+
+interface Props {
+  lang: Lang;
+  service: ServiceData;
+}
+
+const { lang, service } = Astro.props;
+const homePath = getHomePath(lang);
+
+const iconMap: Record<string, string> = {
+  briefcase: 'lucide:briefcase',
+  factory: 'lucide:factory',
+  plane: 'lucide:plane',
+  ship: 'lucide:ship',
+  'trending-up': 'lucide:trending-up',
+};
+---
+
+<div class="service-hero" style={`--service-color: ${service.color}`}>
+  <div class="service-hero-overlay"></div>
+  <div class="service-hero-bg-icon">
+    <Icon name={iconMap[service.icon]} size={200} />
+  </div>
+
+  <div class="container service-hero-content">
+    <a href={homePath} class="back-link">
+      <Icon name="lucide:arrow-left" size={16} />
+      {t(lang, 'service.back')}
+    </a>
+
+    <div class="service-hero-icon" style={`background-color: ${service.color}`}>
+      <Icon name={iconMap[service.icon]} size={32} />
+    </div>
+
+    <h1 class="service-hero-title">{service.fullTitle}</h1>
+    <p class="service-hero-desc">{service.desc}</p>
+  </div>
+</div>
+
+<style>
+  .service-hero {
+    background: var(--color-gray-900);
+    color: var(--color-white);
+    padding: 5rem 0;
+    padding-top: 8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-hero-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-color: var(--service-color);
+  }
+
+  .service-hero-bg-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) translateX(25%) scale(3);
+    opacity: 0.05;
+    color: var(--color-white);
+  }
+
+  .service-hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #d1d5db;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-white);
+  }
+
+  .service-hero-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: var(--color-white);
+  }
+
+  .service-hero-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    max-width: 56rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .service-hero-desc {
+    font-size: 1.25rem;
+    color: #d1d5db;
+    max-width: 40rem;
+    line-height: 1.6;
+  }
+</style>
