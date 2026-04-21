@@ -16,10 +16,7 @@ const clients = [
 ];
 ---
 
-<section
-  class="clients-section reveal-on-scroll"
-  style="padding:4rem 0;background:#fff;overflow:hidden;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:relative;"
->
+<section style="padding:4rem 0;background:#fff;overflow:hidden;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:relative;" class="reveal-on-scroll">
   <div style="position:absolute;top:0;left:0;width:6rem;height:100%;z-index:10;pointer-events:none;background:linear-gradient(to right,#fff,transparent);"></div>
   <div style="position:absolute;top:0;right:0;width:6rem;height:100%;z-index:10;pointer-events:none;background:linear-gradient(to left,#fff,transparent);"></div>
 
@@ -30,76 +27,35 @@ const clients = [
   </div>
 
   <div style="overflow:hidden;width:100%;">
-    <div
-      id="clients-scroll-track"
-      style="display:flex;align-items:center;gap:5rem;width:max-content;"
-    >
-      {clients.map((client) => (
-        <img
-          src={client.logo}
-          alt={client.name}
-          class="client-logo-img"
-          style="height:100px;width:auto;object-fit:contain;flex-shrink:0;"
-        />
+    <div style="display:flex;align-items:center;gap:5rem;width:max-content;animation:clients-slide 20s linear infinite;">
+      {clients.map((c) => (
+        <img src={c.logo} alt={c.name} style="height:100px;width:auto;object-fit:contain;flex-shrink:0;" />
       ))}
-      {clients.map((client) => (
-        <img
-          src={client.logo}
-          alt={client.name}
-          class="client-logo-img"
-          style="height:100px;width:auto;object-fit:contain;flex-shrink:0;"
-          aria-hidden="true"
-        />
+      {clients.map((c) => (
+        <img src={c.logo} alt={c.name} style="height:100px;width:auto;object-fit:contain;flex-shrink:0;" aria-hidden="true" />
       ))}
     </div>
   </div>
 </section>
 
-<script>
-  function initClientsMarquee() {
-    const track = document.getElementById('clients-scroll-track');
-    if (!track) return;
-
-    // Apply animation via JS to avoid CSS scoping issues
-    track.style.animation = 'clients-slide 20s linear infinite';
-
-    // Pause on hover
-    track.addEventListener('mouseenter', () => {
-      track.style.animationPlayState = 'paused';
-    });
-    track.addEventListener('mouseleave', () => {
-      track.style.animationPlayState = 'running';
-    });
-
-    // Responsive: adjust for mobile
-    function adjustForMobile() {
-      const isMobile = window.innerWidth <= 640;
-      track.style.gap = isMobile ? '3rem' : '5rem';
-      track.style.animationDuration = isMobile ? '15s' : '20s';
-
-      const logos = track.querySelectorAll('.client-logo-img') as NodeListOf<HTMLImageElement>;
-      logos.forEach((logo) => {
-        logo.style.height = isMobile ? '80px' : '100px';
-      });
+<style>
+  @media (max-width: 640px) {
+    section {
+      padding: 3rem 0 !important;
     }
 
-    adjustForMobile();
-    window.addEventListener('resize', adjustForMobile);
-  }
+    section > div:first-child,
+    section > div:nth-child(2) {
+      width: 3rem !important;
+    }
 
-  // Inject keyframes if not already present
-  if (!document.getElementById('clients-keyframes')) {
-    const style = document.createElement('style');
-    style.id = 'clients-keyframes';
-    style.textContent = `
-      @keyframes clients-slide {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-      }
-    `;
-    document.head.appendChild(style);
-  }
+    img {
+      height: 80px !important;
+    }
 
-  initClientsMarquee();
-  document.addEventListener('astro:page-load', initClientsMarquee);
-</script>
+    div[style*="gap:5rem"] {
+      gap: 3rem !important;
+      animation-duration: 15s !important;
+    }
+  }
+</style>

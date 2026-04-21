@@ -109,6 +109,12 @@ ul, ol {
   animation-play-state: paused;
 }
 
+/* Clients logo marquee - uses max-content width */
+@keyframes clients-slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @keyframes fadeInDown {
   0% {
     opacity: 0;

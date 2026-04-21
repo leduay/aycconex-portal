@@ -24,12 +24,8 @@ const homePath = getHomePath(lang);
     <!-- Desktop Navigation -->
     <div class="navbar-links hide-mobile">
       <a href={homePath} class="nav-link">{t(lang, 'nav.home')}</a>
-      {!isServicePage && (
-        <a href="#quienes-somos" class="nav-link">{t(lang, 'nav.about')}</a>
-      )}
-      {!isServicePage && (
-        <a href="#servicios-grid" class="nav-link">{t(lang, 'nav.services')}</a>
-      )}
+      <a href={isServicePage ? `${homePath}#quienes-somos` : '#quienes-somos'} class="nav-link">{t(lang, 'nav.about')}</a>
+      <a href={isServicePage ? `${homePath}#servicios-grid` : '#servicios-grid'} class="nav-link">{t(lang, 'nav.services')}</a>
       <LangSwitcher lang={lang} />
       <a href="#contacto" class="nav-cta">
         {t(lang, 'nav.contact')}
