@@ -29,10 +29,10 @@ const clients = [
   <div style="overflow:hidden;width:100%;">
     <div style="display:flex;align-items:center;gap:5rem;width:max-content;animation:clients-slide 20s linear infinite;">
       {clients.map((c) => (
-        <img src={c.logo} alt={c.name} style="height:100px;width:auto;object-fit:contain;flex-shrink:0;" />
+        <img src={c.logo} alt={c.name} width="250" height="100" style="height:100px;width:250px;object-fit:contain;flex-shrink:0;" />
       ))}
       {clients.map((c) => (
-        <img src={c.logo} alt={c.name} style="height:100px;width:auto;object-fit:contain;flex-shrink:0;" aria-hidden="true" />
+        <img src={c.logo} alt={c.name} width="250" height="100" style="height:100px;width:250px;object-fit:contain;flex-shrink:0;" aria-hidden="true" />
       ))}
     </div>
   </div>
@@ -51,6 +51,7 @@ const clients = [
 
     img {
       height: 80px !important;
+      width: 200px !important;
     }
 
     div[style*="gap:5rem"] {
