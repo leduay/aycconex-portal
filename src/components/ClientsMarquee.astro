@@ -8,101 +8,98 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const clients = ['MEHECO', 'GREENUNION', 'TIANJIN HUAXUAN', 'UNICO COMPANY LTD', 'IDV'];
+const clients = [
+  { name: 'MEHECO', logo: '/images/empresa-meheco.png' },
+  { name: 'Beesun', logo: '/images/empresa-beesun.png' },
+  { name: 'UNICO COMPANY', logo: '/images/empresa-unico-company.png' },
+  { name: 'IDV', logo: '/images/empresa-idv.png' },
+];
 ---
 
-<section class="marquee-section reveal-on-scroll">
-  <div class="marquee-fade-left"></div>
-  <div class="marquee-fade-right"></div>
+<section
+  class="clients-section reveal-on-scroll"
+  style="padding:4rem 0;background:#fff;overflow:hidden;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:relative;"
+>
+  <div style="position:absolute;top:0;left:0;width:6rem;height:100%;z-index:10;pointer-events:none;background:linear-gradient(to right,#fff,transparent);"></div>
+  <div style="position:absolute;top:0;right:0;width:6rem;height:100%;z-index:10;pointer-events:none;background:linear-gradient(to left,#fff,transparent);"></div>
 
-  <div class="container marquee-header">
-    <h3 class="marquee-title">{t(lang, 'clients.title')}</h3>
+  <div class="container" style="text-align:center;margin-bottom:2rem;">
+    <h3 style="color:#9ca3af;font-weight:700;letter-spacing:0.1em;font-size:0.875rem;text-transform:uppercase;">
+      {t(lang, 'clients.title')}
+    </h3>
   </div>
 
-  <div class="animate-marquee">
-    {[0, 1].map(() => (
-      <div class="marquee-track">
-        {clients.map((client) => (
-          <div class="marquee-item">{client}</div>
-        ))}
-      </div>
-    ))}
+  <div style="overflow:hidden;width:100%;">
+    <div
+      id="clients-scroll-track"
+      style="display:flex;align-items:center;gap:5rem;width:max-content;"
+    >
+      {clients.map((client) => (
+        <img
+          src={client.logo}
+          alt={client.name}
+          class="client-logo-img"
+          style="height:100px;width:auto;object-fit:contain;flex-shrink:0;"
+        />
+      ))}
+      {clients.map((client) => (
+        <img
+          src={client.logo}
+          alt={client.name}
+          class="client-logo-img"
+          style="height:100px;width:auto;object-fit:contain;flex-shrink:0;"
+          aria-hidden="true"
+        />
+      ))}
+    </div>
   </div>
 </section>
 
-<style>
-  .marquee-section {
-    padding: 4rem 0;
-    background: var(--color-white);
-    overflow: hidden;
-    border-top: 1px solid var(--color-gray-200);
-    border-bottom: 1px solid var(--color-gray-200);
-    position: relative;
+<script>
+  function initClientsMarquee() {
+    const track = document.getElementById('clients-scroll-track');
+    if (!track) return;
+
+    // Apply animation via JS to avoid CSS scoping issues
+    track.style.animation = 'clients-slide 20s linear infinite';
+
+    // Pause on hover
+    track.addEventListener('mouseenter', () => {
+      track.style.animationPlayState = 'paused';
+    });
+    track.addEventListener('mouseleave', () => {
+      track.style.animationPlayState = 'running';
+    });
+
+    // Responsive: adjust for mobile
+    function adjustForMobile() {
+      const isMobile = window.innerWidth <= 640;
+      track.style.gap = isMobile ? '3rem' : '5rem';
+      track.style.animationDuration = isMobile ? '15s' : '20s';
+
+      const logos = track.querySelectorAll('.client-logo-img') as NodeListOf<HTMLImageElement>;
+      logos.forEach((logo) => {
+        logo.style.height = isMobile ? '80px' : '100px';
+      });
+    }
+
+    adjustForMobile();
+    window.addEventListener('resize', adjustForMobile);
   }
 
-  .marquee-fade-left,
-  .marquee-fade-right {
-    position: absolute;
-    top: 0;
-    width: 8rem;
-    height: 100%;
-    z-index: 10;
-    pointer-events: none;
+  // Inject keyframes if not already present
+  if (!document.getElementById('clients-keyframes')) {
+    const style = document.createElement('style');
+    style.id = 'clients-keyframes';
+    style.textContent = `
+      @keyframes clients-slide {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
-  .marquee-fade-left {
-    left: 0;
-    background: linear-gradient(to right, var(--color-white), transparent);
-  }
-
-  .marquee-fade-right {
-    right: 0;
-    background: linear-gradient(to left, var(--color-white), transparent);
-  }
-
-  .marquee-header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .marquee-title {
-    color: var(--color-gray-400);
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-  }
-
-  .marquee-track {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 50%;
-    padding: 0 3rem;
-    gap: 4rem;
-    filter: grayscale(1);
-    opacity: 0.6;
-    transition: all 0.3s ease;
-  }
-
-  .marquee-track:hover {
-    filter: grayscale(0);
-    opacity: 1;
-  }
-
-  .marquee-item {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--color-gray-500);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .marquee-item:nth-child(1) {
-    font-size: 1.875rem;
-  }
-
-  .marquee-item:nth-child(5) {
-    font-size: 2.25rem;
-  }
-</style>
+  initClientsMarquee();
+  document.addEventListener('astro:page-load', initClientsMarquee);
+</script>

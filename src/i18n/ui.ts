@@ -57,8 +57,8 @@ export const ui: Record<Lang, Record<string, string>> = {
 
     // Service Page
     'service.back': 'Volver al Inicio',
-    'service.sidebar': 'Otros Servicios',
-    'service.detail': 'Detalle de Gestión',
+    'service.sidebar': 'Servicios',
+    'service.detail': 'Descripción del Servicio',
     'service.ctaGeneric': 'Nuestro equipo está listo para asesorarlo personalmente en este servicio.',
 
     // Contact
@@ -151,8 +151,8 @@ export const ui: Record<Lang, Record<string, string>> = {
 
     // Service Page
     'service.back': 'Back to Home',
-    'service.sidebar': 'Other Services',
-    'service.detail': 'Management Details',
+    'service.sidebar': 'Services',
+    'service.detail': 'Service Description',
     'service.ctaGeneric': 'Our team is ready to advise you personally on this service.',
 
     // Contact
@@ -245,8 +245,8 @@ export const ui: Record<Lang, Record<string, string>> = {
 
     // Service Page
     'service.back': '返回首页',
-    'service.sidebar': '其他服务',
-    'service.detail': '管理详情',
+    'service.sidebar': '服务',
+    'service.detail': '服务描述',
     'service.ctaGeneric': '我们的团队已准备好为您提供该服务的个人咨询。',
 
     // Contact

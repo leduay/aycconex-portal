@@ -50,7 +50,7 @@ function getAlternatePath(targetLang: Lang): string {
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  'name': 'AYCCONEX Sin Fronteras',
+  'name': 'AYCCONEX',
   'alternateName': 'AYCCONEX',
   'url': siteUrl,
   'logo': `${siteUrl}/aycconex-color.png`,
@@ -58,7 +58,7 @@ const organizationSchema = {
   'foundingDate': '2014',
   'contactPoint': {
     '@type': 'ContactPoint',
-    'email': 'contacto@aycconex.com',
+    'email': 'comercial@aycconex.com',
     'contactType': 'customer service',
     'availableLanguage': ['Spanish', 'English', 'Chinese'],
   },
@@ -70,7 +70,7 @@ const organizationSchema = {
     },
     {
       '@type': 'PostalAddress',
-      'addressLocality': 'Beijing',
+      'addressLocality': 'Shenzhen',
       'addressCountry': 'CN',
     },
   ],
@@ -91,7 +91,7 @@ const websiteSchema = {
   'description': pageDesc,
   'publisher': {
     '@type': 'Organization',
-    'name': 'AYCCONEX Sin Fronteras',
+    'name': 'AYCCONEX',
   },
 };
 
@@ -118,7 +118,7 @@ const ogImageUrl = `${siteUrl}/aycconex-color.png`;
 
     <!-- SEO: Additional meta tags -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="author" content="AYCCONEX Sin Fronteras" />
+    <meta name="author" content="AYCCONEX" />
     <meta name="theme-color" content="#005579" />
     <meta name="keywords" content={
       lang === 'es' ? 'comercio internacional, China Uruguay, importación, exportación, representación comercial, turismo comercial, cadena de suministros, comercio exterior, AYCCONEX' :
@@ -143,7 +143,7 @@ const ogImageUrl = `${siteUrl}/aycconex-color.png`;
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="800" />
     <meta property="og:image:height" content="200" />
-    <meta property="og:image:alt" content="AYCCONEX Sin Fronteras - Comercio Internacional China-Uruguay" />
+    <meta property="og:image:alt" content="AYCCONEX - Comercio Internacional China-Uruguay" />
     <meta property="og:site_name" content="AYCCONEX" />
     <meta property="og:locale" content={
       lang === 'es' ? 'es_UY' : lang === 'en' ? 'en_US' : 'zh_CN'
@@ -157,7 +157,7 @@ const ogImageUrl = `${siteUrl}/aycconex-color.png`;
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDesc} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content="AYCCONEX Sin Fronteras" />
+    <meta name="twitter:image:alt" content="AYCCONEX" />
 
     <!-- SEO: JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />

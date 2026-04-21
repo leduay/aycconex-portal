@@ -46,8 +46,8 @@ const servicesES: ServiceData[] = [
   {
     id: 'gestion-china',
     icon: 'factory',
-    shortTitle: 'Gestión en China',
-    fullTitle: 'Gestión Comercial en China',
+    shortTitle: 'Servicios en China',
+    fullTitle: 'Servicios Comerciales en China',
     desc: 'Búsqueda de suministradores, inspecciones de mercancía en fábrica y logística integral para importaciones seguras.',
     color: '#EF494C',
     details: [

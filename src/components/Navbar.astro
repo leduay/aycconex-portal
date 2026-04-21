@@ -52,9 +52,8 @@ const homePath = getHomePath(lang);
   <!-- Mobile Menu -->
   <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
     <a href={homePath} class="mobile-link">{t(lang, 'nav.home')}</a>
-    {!isServicePage && (
-      <a href="#servicios-grid" class="mobile-link">{t(lang, 'nav.services')}</a>
-    )}
+    <a href={isServicePage ? `${homePath}#quienes-somos` : '#quienes-somos'} class="mobile-link">{t(lang, 'nav.about')}</a>
+    <a href={isServicePage ? `${homePath}#servicios-grid` : '#servicios-grid'} class="mobile-link">{t(lang, 'nav.services')}</a>
     <a href="#contacto" class="mobile-link">{t(lang, 'nav.contact')}</a>
     <LangSwitcher lang={lang} mobile />
   </div>

@@ -31,17 +31,7 @@ const services = getServices(lang);
             </div>
             <div>
               <p class="contact-detail-label">Email</p>
-              <p class="contact-detail-value">contacto@aycconex.com</p>
-            </div>
-          </div>
-
-          <div class="contact-detail-item">
-            <div class="contact-detail-icon contact-detail-icon-primary">
-              <Icon name="lucide:map-pin" size={20} />
-            </div>
-            <div>
-              <p class="contact-detail-label">Montevideo, Uruguay</p>
-              <p class="contact-detail-value">Beijing / Guangzhou, China</p>
+              <p class="contact-detail-value">comercial@aycconex.com</p>
             </div>
           </div>
         </div>
@@ -380,6 +370,34 @@ const services = getServices(lang);
     });
   }
 
+  function initServicePreselect() {
+    const serviceSelect = document.getElementById('service') as HTMLSelectElement;
+    if (!serviceSelect) return;
+
+    // Listen for CTA clicks with data-service-select
+    document.querySelectorAll('[data-service-select]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const serviceName = (btn as HTMLElement).dataset.serviceSelect;
+        if (!serviceName) return;
+
+        // Find matching option by value
+        const options = serviceSelect.options;
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].value === serviceName) {
+            serviceSelect.selectedIndex = i;
+            // Trigger change event for any listeners
+            serviceSelect.dispatchEvent(new Event('change'));
+            break;
+          }
+        }
+      });
+    });
+  }
+
   initContactForm();
-  document.addEventListener('astro:page-load', initContactForm);
+  initServicePreselect();
+  document.addEventListener('astro:page-load', () => {
+    initContactForm();
+    initServicePreselect();
+  });
 </script>

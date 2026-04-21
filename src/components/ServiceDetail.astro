@@ -37,7 +37,7 @@ const { lang, service } = Astro.props;
         <h5 class="cta-box-title">{service.ctaDesc}</h5>
         <p class="cta-box-desc">{t(lang, 'service.ctaGeneric')}</p>
       </div>
-      <a href="#contacto" class="cta-box-btn">{service.ctaText}</a>
+      <a href="#contacto" class="cta-box-btn" data-service-select={service.shortTitle}>{service.ctaText}</a>
     </div>
   </div>
 </div>
@@ -178,14 +178,23 @@ const { lang, service } = Astro.props;
     border-radius: 0.25rem;
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     transition: all 0.2s ease;
-    white-space: nowrap;
     text-align: center;
     width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   @media (min-width: 768px) {
     .cta-box-btn {
       width: auto;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cta-box-btn {
+      font-size: 0.875rem;
+      padding: 0.875rem 1.25rem;
     }
   }
 

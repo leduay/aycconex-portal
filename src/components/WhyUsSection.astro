@@ -50,7 +50,7 @@ const pillars = [
       <p class="why-subtitle">{t(lang, 'why.subtitle')}</p>
     </div>
 
-    <div class="pillars-grid">
+    <div id="pillars-grid" class="pillars-grid">
       {pillars.map((pillar, idx) => (
         <div class="pillar-card reveal-on-scroll" style={`--delay: ${idx * 100}ms`}>
           <div class="pillar-icon-wrapper" style={`background-color: ${pillar.color}`}>
@@ -61,6 +61,16 @@ const pillars = [
           <div class="pillar-accent" style={`background-color: ${pillar.color}`}></div>
         </div>
       ))}
+    </div>
+
+    <!-- Mobile toggle button -->
+    <div class="why-toggle-wrapper hide-desktop">
+      <button id="why-toggle-btn" class="why-toggle-btn" aria-expanded="false">
+        <span class="why-toggle-text">
+          {t(lang, 'why.label')}
+        </span>
+        <Icon name="lucide:chevron-down" size={20} class="why-toggle-icon" />
+      </button>
     </div>
   </div>
 </section>
@@ -181,4 +191,87 @@ const pillars = [
   .pillar-card:hover .pillar-accent {
     opacity: 1;
   }
+
+  /* Mobile collapsible */
+  .why-toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .why-toggle-btn {
+    display: inline-flex;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 85, 121, 0.3);
+  }
+
+  .why-toggle-btn:hover {
+    background: #003d57;
+  }
+
+  .why-toggle-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .why-toggle-btn[aria-expanded="true"] .why-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  @media (max-width: 767px) {
+    .why-section {
+      padding: 4rem 0;
+    }
+
+    .why-header {
+      margin-bottom: 0;
+    }
+
+    .pillars-grid {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.3s ease;
+      margin-top: 0;
+    }
+
+    .pillars-grid.expanded {
+      max-height: 2000px;
+      opacity: 1;
+      margin-top: 2rem;
+    }
+  }
 </style>
+
+<script>
+  let whyToggleController: AbortController | null = null;
+
+  function initWhyToggle() {
+    if (whyToggleController) {
+      whyToggleController.abort();
+    }
+    whyToggleController = new AbortController();
+    const { signal } = whyToggleController;
+
+    const btn = document.getElementById('why-toggle-btn');
+    const grid = document.getElementById('pillars-grid');
+    if (!btn || !grid) return;
+
+    btn.addEventListener('click', () => {
+      const isExpanded = grid.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', String(isExpanded));
+    }, { signal });
+  }
+
+  initWhyToggle();
+  document.addEventListener('astro:page-load', initWhyToggle);
+</script>

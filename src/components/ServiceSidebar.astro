@@ -14,41 +14,108 @@ const { lang, activeServiceId } = Astro.props;
 const services = getServices(lang);
 ---
 
-<div class="sidebar">
-  <div class="sidebar-inner">
-    <div class="sidebar-header">
-      <h4 class="sidebar-title">{t(lang, 'service.sidebar')}</h4>
-    </div>
-    <ul class="sidebar-list">
-      {services.map((service) => (
-        <li>
-          <a
-            href={getServicePath(lang, service.id)}
-            class:list={['sidebar-link', { active: service.id === activeServiceId }]}
+<div class="service-sidebar-wrapper">
+  <!-- Mobile: dropdown select -->
+  <div class="sb-mobile">
+    <label class="sb-mobile-label">{t(lang, 'service.sidebar')}</label>
+    <div class="sb-select-wrap">
+      <select id="service-nav-select" class="sb-select">
+        {services.map((service) => (
+          <option
+            value={getServicePath(lang, service.id)}
+            selected={service.id === activeServiceId}
           >
             {service.shortTitle}
-            {service.id === activeServiceId && (
-              <Icon name="lucide:chevron-right" size={16} />
-            )}
-          </a>
-        </li>
-      ))}
-    </ul>
+          </option>
+        ))}
+      </select>
+      <Icon name="lucide:chevron-down" size={18} class="sb-select-chevron" />
+    </div>
+  </div>
+
+  <!-- Desktop: sidebar list -->
+  <div class="sb-desktop">
+    <div class="sb-desktop-inner">
+      <div class="sb-desktop-header">
+        <h4 class="sb-desktop-title">{t(lang, 'service.sidebar')}</h4>
+      </div>
+      <ul class="sb-desktop-list">
+        {services.map((service) => (
+          <li>
+            <a
+              href={getServicePath(lang, service.id)}
+              class:list={['sb-desktop-link', { 'sb-active': service.id === activeServiceId }]}
+            >
+              {service.shortTitle}
+              {service.id === activeServiceId && (
+                <Icon name="lucide:chevron-right" size={16} />
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </div>
 
 <style>
-  .sidebar {
+  .service-sidebar-wrapper {
     width: 100%;
   }
 
-  @media (min-width: 1024px) {
-    .sidebar {
-      width: 25%;
-    }
+  /* ===== MOBILE ===== */
+  .sb-mobile {
+    display: block;
   }
 
-  .sidebar-inner {
+  .sb-mobile-label {
+    display: block;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .sb-select-wrap {
+    position: relative;
+  }
+
+  .sb-select {
+    width: 100%;
+    padding: 0.875rem 3rem 0.875rem 1rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 0.5rem;
+    font-family: var(--font-family);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: var(--color-white);
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .sb-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 85, 121, 0.15);
+  }
+
+  .sb-select-chevron {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    pointer-events: none;
+  }
+
+  /* ===== DESKTOP ===== */
+  .sb-desktop {
+    display: none;
+  }
+
+  .sb-desktop-inner {
     position: sticky;
     top: 6rem;
     background: var(--color-white);
@@ -58,13 +125,13 @@ const services = getServices(lang);
     overflow: hidden;
   }
 
-  .sidebar-header {
+  .sb-desktop-header {
     padding: 1rem;
     background: var(--color-gray-50);
     border-bottom: 1px solid var(--color-gray-200);
   }
 
-  .sidebar-title {
+  .sb-desktop-title {
     font-weight: 700;
     color: var(--color-gray-900);
     text-transform: uppercase;
@@ -72,12 +139,12 @@ const services = getServices(lang);
     letter-spacing: 0.05em;
   }
 
-  .sidebar-list {
+  .sb-desktop-list {
     display: flex;
     flex-direction: column;
   }
 
-  .sidebar-link {
+  .sb-desktop-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -88,37 +155,44 @@ const services = getServices(lang);
     transition: all 0.2s ease;
   }
 
-  .sidebar-link:hover {
+  .sb-desktop-link:hover {
     background: var(--color-gray-50);
     color: var(--color-gray-900);
   }
 
-  .sidebar-link.active {
+  .sb-desktop-link.sb-active {
     background: rgba(0, 85, 121, 0.05);
     color: var(--color-primary);
     font-weight: 700;
     border-left-color: var(--color-primary);
   }
 
-  /* On mobile, horizontal scroll */
-  @media (max-width: 1023px) {
-    .sidebar-list {
-      flex-direction: row;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+  /* ===== BREAKPOINT ===== */
+  @media (min-width: 1024px) {
+    .service-sidebar-wrapper {
+      width: 25%;
     }
 
-    .sidebar-link {
-      white-space: nowrap;
-      border-left: none;
-      border-bottom: 4px solid transparent;
-      padding: 0.75rem 1rem;
-      font-size: 0.8125rem;
+    .sb-mobile {
+      display: none;
     }
 
-    .sidebar-link.active {
-      border-bottom-color: var(--color-primary);
-      border-left: none;
+    .sb-desktop {
+      display: block;
     }
   }
 </style>
+
+<script>
+  function initServiceNav() {
+    const select = document.getElementById('service-nav-select') as HTMLSelectElement;
+    if (!select) return;
+
+    select.addEventListener('change', () => {
+      window.location.href = select.value;
+    });
+  }
+
+  initServiceNav();
+  document.addEventListener('astro:page-load', initServiceNav);
+</script>
