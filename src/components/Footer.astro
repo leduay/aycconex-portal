@@ -21,14 +21,8 @@ const currentYear = new Date().getFullYear();
         <img src="/aycconex-blanco.png" alt="AYCCONEX" class="footer-logo-img" />
       </a>
       <p class="footer-desc">{t(lang, 'footer.desc')}</p>
-      <div class="footer-socials">
-        <a href="https://www.linkedin.com/company/aycconex" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
-          <Icon name="lucide:linkedin" size={18} />
-        </a>
-        <a href="https://www.facebook.com/aycconex" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
-          <Icon name="lucide:facebook" size={18} />
-        </a>
-      </div>
+
+
     </div>
 
     <!-- Quick Links -->
@@ -111,26 +105,8 @@ const currentYear = new Date().getFullYear();
     margin-bottom: 1.5rem;
   }
 
-  .footer-socials {
-    display: flex;
-    gap: 1rem;
-  }
 
-  .social-btn {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: var(--color-gray-800);
-    color: var(--color-white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease;
-  }
 
-  .social-btn:hover {
-    background: var(--color-accent);
-  }
 
   .footer-col-title {
     color: var(--color-white);
